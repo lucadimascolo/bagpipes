@@ -3,6 +3,8 @@ from __future__ import print_function, division, absolute_import
 import numpy as np
 import time
 
+import scipy.stats
+
 from copy import deepcopy
 
 from .prior import prior, dirichlet
@@ -178,10 +180,18 @@ class fitted_model(object):
     def _lnlike_phot(self):
         """ Calculates the log-likelihood for photometric data. """
 
-        diff = (self.galaxy.photometry[:, 1] - self.model_galaxy.photometry)**2
-        self.chisq_phot = np.sum(diff*self.inv_sigma_sq_phot)
+        modphot = self.model_galaxy.photometry[~self.galaxy.isupper]
+        modulim = self.model_galaxy.photometry[ self.galaxy.isupper]
 
-        return self.K_phot - 0.5*self.chisq_phot
+        datphot = self.galaxy.photometry[~self.galaxy.isupper,:]
+        datulim = self.galaxy.photometry[ self.galaxy.isupper,:]
+
+        outphot = -0.5*np.sum(np.log(2*np.pi*datphot[:,2]**2)+((datphot[:,1]-modphot)/datphot[:,2])**2)
+
+        outulim = scipy.stats.uniform.logpdf(modulim,loc=0.00,scale=datulim[:,2]).sum()
+
+        return outphot+outulim
+
 
     def _lnlike_spec(self):
         """ Calculates the log-likelihood for spectroscopic data. This

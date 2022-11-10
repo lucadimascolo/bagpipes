@@ -126,6 +126,8 @@ class galaxy:
         else:
             self.spec_cov = None
 
+        self.isupper = np.isnan(self.photometry[:,1])
+
         # Perform any unit conversions.
         self._convert_units()
 
