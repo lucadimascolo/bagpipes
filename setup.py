@@ -23,9 +23,9 @@ setup(
 
     author_email='adamc@roe.ac.uk',
 
-    packages=["bagpipes", "bagpipes.fitting", "bagpipes.catalogue",
-              "bagpipes.models", "bagpipes.filters", "bagpipes.input",
-              "bagpipes.plotting", "bagpipes.models.making", "bagpipes.moons"],
+    packages=["modpipes", "modpipes.fitting", "modpipes.catalogue",
+              "modpipes.models", "modpipes.filters", "modpipes.input",
+              "modpipes.plotting", "modpipes.models.making", "modpipes.moons"],
 
     include_package_data=True,
 
@@ -35,7 +35,7 @@ setup(
 
     project_urls={
         "readthedocs": "https://bagpipes.readthedocs.io",
-        "GitHub": "https://github.com/ACCarnall/bagpipes",
+        "GitHub": "https://github.com/lucadimascolo/modpipes",
         "ArXiv": "https://arxiv.org/abs/1712.04452"
     }
 )
