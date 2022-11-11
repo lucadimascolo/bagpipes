@@ -4,6 +4,7 @@ import numpy as np
 import time
 
 import scipy.stats
+import scipy.special
 
 from copy import deepcopy
 
@@ -186,9 +187,13 @@ class fitted_model(object):
         datphot = self.galaxy.photometry[~self.galaxy.isupper,:]
         datulim = self.galaxy.photometry[ self.galaxy.isupper,:]
 
-        outphot = -0.5*np.sum(np.log(2*np.pi*datphot[:,2]**2)+((datphot[:,1]-modphot)/datphot[:,2])**2)
+        outphot = -0.50*np.sum(np.log(2.00*np.pi*datphot[:,2]**2)+((datphot[:,1]-modphot)/datphot[:,2])**2)
 
-        outulim = scipy.stats.uniform.logpdf(modulim,loc=0.00,scale=datulim[:,2]).sum()
+    #   outulim = scipy.stats.uniform.logpdf(modulim,loc=0.00,scale=datulim[:,2]).sum()
+
+        outulim = 1.00+scipy.special.erf((datulim[:,1]-modulim)/datulim[:,2]/np.sqrt(2))
+        outulim = np.sum(np.log(np.sqrt(0.50*np.pi)*datulim[:,2]*outulim))
+        outulim = outulim-0.50*np.sum(np.log(2.00*np.pi*datulim[:,2]**2))
 
         return outphot+outulim
 

@@ -126,7 +126,10 @@ class galaxy:
         else:
             self.spec_cov = None
 
-        self.isupper = np.isnan(self.photometry[:,1])
+        if self.photometry.shape[1]==4:
+            self.isupper = self.photometry[:,-1].astype(bool)
+        else:
+            self.isupper = np.zeros(self.photometry.shape[0],dtype=bool)
 
         # Perform any unit conversions.
         self._convert_units()
