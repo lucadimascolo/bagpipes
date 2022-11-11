@@ -1,5 +1,5 @@
 
-*This is a slightly modded version of the Bagpipes v0.8.9, adding support to photometric upper limits. The likelihood for such points are assumed to be described by uniform probability distributions.*
+*This is a slightly modded version of Bagpipes v0.8.9, adding support to photometric upper limits. The likelihood for such points are assumed to be described by uniform probability distributions.*
 
 ----
 
