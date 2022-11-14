@@ -187,15 +187,14 @@ class fitted_model(object):
         datphot = self.galaxy.photometry[~self.galaxy.isupper,:]
         datulim = self.galaxy.photometry[ self.galaxy.isupper,:]
 
-        outphot = -0.50*np.sum(np.log(2.00*np.pi*datphot[:,2]**2)+((datphot[:,1]-modphot)/datphot[:,2])**2)
+        chiphot = np.sum(((datphot[:,1]-modphot)/datphot[:,2])**2)
 
-    #   outulim = scipy.stats.uniform.logpdf(modulim,loc=0.00,scale=datulim[:,2]).sum()
+        chiulim = 1.00+scipy.special.erf((datulim[:,1]-modulim)/datulim[:,2]/np.sqrt(2))
+        chiulim = -2.00*np.sum(np.log(np.sqrt(0.50*np.pi)*datulim[:,2]*chiulim))
 
-        outulim = 1.00+scipy.special.erf((datulim[:,1]-modulim)/datulim[:,2]/np.sqrt(2))
-        outulim = np.sum(np.log(np.sqrt(0.50*np.pi)*datulim[:,2]*outulim))
-        outulim = outulim-0.50*np.sum(np.log(2.00*np.pi*datulim[:,2]**2))
+        self.chisq_phot = chiphot+chiulim
 
-        return outphot+outulim
+        return self.K_phot-0.50*self.chisq_phot
 
 
     def _lnlike_spec(self):
